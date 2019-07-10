@@ -1,0 +1,51 @@
+<html>
+
+<head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+  <script type="text/javascript">
+  </script>
+</head>
+
+<body id="pagebox" name="pagebox">
+  <div class="container">
+
+  
+    <form action="/messages" method='post'>
+      <label for="name">Name:</label>
+      <input type="textarea" name="name" id="name">
+      <label for="message">Message:</label>
+      <input type="text" name="message" id="message">
+      <input type="submit" class="btn btn-outline-success" value="Post message">
+    </form>
+
+    <div class="h2">Here are the awesome messages!</div>
+    <% if(messages) { %>
+    <% for (var x of messages) { %>
+    <div>
+      <h4>Name: <%= x.name %></h4>
+      <h4>Message: <%= x.message %></h4>
+      <% if(comments) { %>
+      <% for (var y of comments) { %>
+      <% if(y.id in x.comments) { %>
+      <h4>Name: <%= y.name %></h4>
+      <h4>Message: <%= y.message %></h4>
+      <% } %>
+      <% } %>
+      <% } %>
+      <form action="/comments" method='post'>
+        <label for="name">Name:</label>
+        <input type="textarea" name="name" id="name">
+        <label for="message">Comment:</label>
+        <input type="text" name="message" id="message">
+        <input type="hidden" name="message_id" id="message_id" value="<%= x.id %>">
+        <input type="submit" class="btn btn-outline-success" value="Post comment">
+      </form>
+    </div>
+    <% } %>
+    <% } %>
+  </div>
+</body>
+
+</html>
